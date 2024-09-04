@@ -1,0 +1,4 @@
+
+[env]
+TEST_RESOURCE_DIR = { value = "../test_files/", relative = true}
+TEST_OUTPUT_DIR = { value = "tmp/", relative = true}
