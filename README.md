@@ -3,7 +3,7 @@ Hexegic Exercise
 
 # Overview
 
-Rust solution is in the './rust' directory. this should be runnable using cargo
+Rust solution is in the './rust' directory, it should be runnable using cargo
 
 cargo run [direction] [input_file] [output_file]
 
