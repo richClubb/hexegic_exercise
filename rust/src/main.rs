@@ -47,8 +47,6 @@ fn check_output_file_path(output_file: &PathBuf){
 fn main() {
     let args = Cli::parse();
 
-    println!("pattern: {:?}, input path: {:?}, output path {:?}", args.direction, args.input_path, args.output_path);
-
     // passing these as references as they do not need ownership inside the function
     check_direction(&args.direction);
     check_input_file_path(&args.input_path);
