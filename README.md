@@ -24,11 +24,15 @@ The rotate module has 1 public function 'rotate_file' and performs either a 'rot
 
 There are unit tests for the 'rotate' module which are arranged into separate test modules for each function, 'rotate_left', 'rotate_right' and 'rotate_file'. These are some general tests but I didn't want to spend too much time on testing this really extensively as I'd already gone over the 2 hour mark for this assignment.
 
+The unit tests can be run using `cargo test` from the './rust' directory.
+
 ## Integration Tests
 
 I've put together some basic files for testing in the './test_files' directory. These are just to test the overall behaviour. These include empty files as well as larger files to check timing on large file sizes.
 
 Git recommends not storing files larger than 10 Mb. I've included the 100 Mb as it's a small repo but if you want to create a larger file you can use `dd` to create a file `dd if=/dev/zero of=test04_big_file bs=1G count=1`.
+
+A program like 'xxd' can be used to view the output file for correctness. `xxd -b [file]` can show the binary representation of the bytes in the file.
 
 ## Timing
 
