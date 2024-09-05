@@ -5,7 +5,7 @@ Hexegic Exercise
 
 Rust solution is in the './rust' directory, it should be runnable using cargo
 
-cargo run [direction] [input_file] [output_file]
+`cargo run [direction] [input_file] [output_file]`
 
 The code is arranged so that 'main.rs' takes the CLI params and parses them, checking that they are valid before calling the 'rotate_file' method in the 'rotate' module. There are checks in place to make sure that the input file exists and the output directory is valid. If there is already and output file it will not overwrite it and will panic. I chose this behaviour to avoid the possibility of accidentally overriting the output file, but at the cost of not being able to rotate a single file repeatedly.
 
