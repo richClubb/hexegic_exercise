@@ -6,13 +6,13 @@ mod rotate;
 
 #[derive(Parser)]
 struct Cli {
-    /// The pattern to look for
+    #[arg(help="The direction of rotation, either 'left' or 'right'.")]
     direction: String,
 
-    /// The path to the file to read
+    #[arg(help="The path to the input file to rotate.")]
     input_path: PathBuf,
 
-    /// The path to write the output to
+    #[arg(help="The path to output the rotated file.")]
     output_path: PathBuf,
 }
 
