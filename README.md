@@ -28,6 +28,8 @@ There are unit tests for the 'rotate' module which are arranged into separate te
 
 I've put together some basic files for testing in the './test_files' directory. These are just to test the overall behaviour. These include empty files as well as larger files to check timing on large file sizes.
 
+Git recommends not storing files larger than 10 Mb. I've included the 100 Mb as it's a small repo but if you want to create a larger file you can use `dd` to create a file `dd if=/dev/zero of=test04_big_file bs=1G count=1`.
+
 ## Timing
 
 I tested the times to write 1 meg, 10 meg, 100 meg and 1 gig files:
