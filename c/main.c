@@ -85,7 +85,10 @@ int main(int argc, char ** argv){
 		return ERROR_INVALID_OUTPUT_FILE_PATH;
 	}
 
-	rotate_file(argv[PARAM_POS_DIRECTION], argv[PARAM_POS_INPUT_FILE_PATH], argv[PARAM_POS_OUTPUT_FILE_PATH]);
+	if ((rc = rotate_file(argv[PARAM_POS_DIRECTION], argv[PARAM_POS_INPUT_FILE_PATH], argv[PARAM_POS_OUTPUT_FILE_PATH])) != 0)
+	{
+		printf("Error processing file rotation: %d\n", rc);
+	}
 
 	return rc;
 }
