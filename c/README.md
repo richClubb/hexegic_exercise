@@ -7,6 +7,8 @@ The solution is split into two main parts; `main.c` which takes the input and ch
 
 These were split to aid in code separation and unit testing as `rotate.c` can be built independently and has no dependencies on `main.c`.
 
+The [Makefile](./Makefile) 
+
 ## Known Improvements
 
 The use of `fseek` to reset the file pointer might be causing a performance degredation, so this might be investigated to speed up the process.
@@ -28,9 +30,9 @@ A program like 'xxd' can be used to view the output file for correctness. `xxd -
 ## Timing
 
 I tested the times to write 1 meg, 10 meg, 100 meg and 1 gig files:
-* 1 Mb = 0.7s
-* 10 Mb = 7.1s
-* 100 Mb = 73s
-* 1 Gig = 817s
+* 1 Mb = 0.04s
+* 10 Mb = 0.2s
+* 100 Mb = 1.6s
+* 1 Gig = 15.8s
 
-This was on a 4th Gen Intel laptop with a SATA SSD, I haven't tested the speeds on more modern CPU or hard drive technology. This was significantly slower than both the Rust and Python examples, and the main difference is that the C code reads and writes from the file on each loop. This might mean that the application is IO bound. `iotop` showed that the application was running about 1.4K/s in both read and write. Looking at the rust example, it was writing the processed array at 600M/s.
+This was on a 4th Gen Intel laptop with a SATA SSD, I haven't tested the speeds on more modern CPU or hard drive technology.

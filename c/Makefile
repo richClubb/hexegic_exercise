@@ -9,3 +9,4 @@ lib_rotate:
 
 clean:
 	rm -rf rotate.o lib_rotate.a rotate
+	rm -rf output/*

@@ -17,26 +17,24 @@ int8_t rotate_file_left(char * input_file_path, char * output_file_path)
 	if (input_file == NULL) return ROTATE_FILE_INPUT_FILE_ERROR;
 
 	ch1 = fgetc(input_file);
-	if (ch1 == EOF)
-	{
-		fclose(input_file);
-		return ROTATE_FILE_READ_ERROR;
-	}
-
-	first_byte_msb = (ch1 & 0x80) >> 7;
+	if (ch1 == EOF) return ROTATE_FILE_READ_ERROR;
 
     output_file = fopen(output_file_path, "w");
 	if (output_file == NULL) return ROTATE_FILE_OUTPUT_FILE_ERROR;
+
+	// get the first byte msb for the last byte in the file
+	first_byte_msb = (ch1 & 0x80) >> 7;
 
 	while((ch2 = fgetc(input_file)) != EOF)
 	{
 		write_byte = (ch1 << 1) + ((ch2 & 0x80) >> 7);
 		fputc(write_byte, output_file);
 		if (ferror(output_file) != 0) return ROTATE_FILE_WRITE_ERROR;
+		
 		ch1 = ch2;
 	}
 
-	// handle last byte
+	// handle last byte 
 	write_byte = (ch1 << 1) + first_byte_msb;
 	fputc(write_byte, output_file);
 	if (ferror(output_file) != 0) return ROTATE_FILE_WRITE_ERROR;
@@ -58,28 +56,28 @@ int8_t rotate_file_right(char * input_file_path, char * output_file_path)
 	if (input_file == NULL) return ROTATE_FILE_INPUT_FILE_ERROR;
 
 	ch1 = fgetc(input_file);
-	if (ch1 == EOF)
-	{
-		fclose(input_file);
-		return ROTATE_FILE_WRITE_ERROR;
-	}
+	if (ch1 == EOF) return ROTATE_FILE_READ_ERROR;
+
+	output_file = fopen(output_file_path, "w");
+	if (output_file == NULL) return ROTATE_FILE_OUTPUT_FILE_ERROR;
 
 	// get the last byte lsb
 	fseek(input_file, -1, SEEK_END);
 	ch1 = fgetc(input_file);
 	last_byte_lsb = (ch1 & 0x01);
+
+	// reset file position pointer
 	fseek(input_file, 0, SEEK_SET);
 
-	output_file = fopen(output_file_path, "w");
-	if (output_file == NULL) return ROTATE_FILE_OUTPUT_FILE_ERROR;
-
-	// get the first character
+	// get the first character and rotate
 	ch1 = fgetc(input_file);
 	write_byte = (ch1 >> 1) + (last_byte_lsb << 7);
 
+	// write the first byte
 	fputc(write_byte, output_file);
 	if (ferror(output_file) == EOF) return ROTATE_FILE_WRITE_ERROR;
 
+	// process remaining bytes in the file
 	while((ch2 = fgetc(input_file)) != EOF)
 	{
 		write_byte = (ch2 >> 1) + ((ch1 & 0x01) << 7);
