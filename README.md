@@ -1,45 +1,30 @@
-Hexegic Exercise
-----------------
+Hexegic Interview Exercise
+--------------------------
 
-# Overview
+The initial exercise brief is [Rotate Coding Exercise](./Rotate%20Coding%20Exercise.pdf), and a solution was to be written in Rust, Go, C or C++. The main focus is to write ".. production‑quality, security‑critical code."
 
-Rust solution is in the './rust' directory, it should be runnable using cargo
+Initially the solution was written in Rust, but I decided to use it as an exercise to try this in different languages.
 
-`cargo run [direction] [input_file] [output_file]`
+# Rust
 
-The code is arranged so that 'main.rs' takes the CLI params and parses them, checking that they are valid before calling the 'rotate_file' method in the 'rotate' module. There are checks in place to make sure that the input file exists and the output directory is valid. If there is already and output file it will not overwrite it and will panic. I chose this behaviour to avoid the possibility of accidentally overriting the output file, but at the cost of not being able to rotate a single file repeatedly.
+This was the initial example and took approximately 2.5 hours to code.
 
-The rotate module has 1 public function 'rotate_file' and performs either a 'rotate_left' or 'rotate_right' depending on the direction.
+There is a [readme](./rust/README.md) in the `./rust` directory which gives specific instructions on how to build, run and test the solution.
 
-## Known Improvements
+# C
 
-* I realised that "direction" could probably have been an enum but I was over time and everything worked so I chose not to change it.
-* It does seem slow, I would probably spend some time figuring out how to make it faster if performance on large files was an issue.
-    * It could be made multiprocess by chunking the file into blocks but this would add significant complexity.
-* Improving the 'rotate_files' tests to make them check expected outputs.
+This took around 2 hours to code and was tricky as it has to simultaneously read the input file and write the output file at the same time in each iteration of the loop. This doesn't look ideal but was the initial approach.
 
-# Testing
+There is a readme in the `./c` directory which gives specific instructions on how to build, run and test the solution
 
-## Unit tests
+# C++
 
-There are unit tests for the 'rotate' module which are arranged into separate test modules for each function, 'rotate_left', 'rotate_right' and 'rotate_file'. These are some general tests but I didn't want to spend too much time on testing this really extensively as I'd already gone over the 2 hour mark for this assignment.
+Not yet written, aim is to use some of the `std` libraries as I haven't done a great deal of C++ programming
 
-The unit tests can be run using `cargo test` from the './rust' directory.
+# Go
 
-## Integration Tests
+Not yet written, I have never coded in Golang so this is a good learning exercise
 
-I've put together some basic files for testing in the './test_files' directory. These are just to test the overall behaviour. These include empty files as well as larger files to check timing on large file sizes.
+# Python
 
-Git recommends not storing files larger than 10 Mb. I've included the 100 Mb as it's a small repo but if you want to create a larger file you can use `dd` to create a file `dd if=/dev/zero of=test04_big_file bs=1G count=1`.
-
-A program like 'xxd' can be used to view the output file for correctness. `xxd -b [file]` can show the binary representation of the bytes in the file.
-
-## Timing
-
-I tested the times to write 1 meg, 10 meg, 100 meg and 1 gig files:
-* 1 Mb = 0.2s
-* 10 Mb = 1.1s
-* 100 Mb = 9.5s
-* 1 Gig = 103s
-
-This was on a 4th Gen Intel laptop with a SATA SSD, I haven't tested the speeds on more modern CPU or hard drive technology. 'top' is showing the CPU pegged at 100% for the duration of the run so I'm assuming that with a faster CPU this would be significantly faster and this isn't really a I/O bound problem.
+This is outside the exercise remit 
