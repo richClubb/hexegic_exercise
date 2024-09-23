@@ -9,6 +9,8 @@ These were split to aid in code separation and unit testing as `rotate.c` can be
 
 The [Makefile](./Makefile) defines the build process for the project
 
+There are also debug make options for compiling with the ability to debug in gdb.
+
 ## Known Improvements
 
 The use of `fseek` to reset the file pointer might be causing a performance degredation, so this might be investigated to speed up the process.

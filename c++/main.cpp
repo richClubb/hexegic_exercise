@@ -70,7 +70,7 @@ int main(int argc, char ** argv)
 		return ERROR_INVALID_OUTPUT_FILE_PATH;
 	}
 
-	int8_t rc = rotate_file(argv[PARAM_POS_DIRECTION], argv[PARAM_POS_INPUT_FILE_PATH], argv[PARAM_POS_OUTPUT_FILE_PATH]);
+	Rotate rot = Rotate(argv[PARAM_POS_INPUT_FILE_PATH], argv[PARAM_POS_OUTPUT_FILE_PATH]);
 
-	return rc;
+	return rot.rotate_file(argv[PARAM_POS_DIRECTION]);
 }

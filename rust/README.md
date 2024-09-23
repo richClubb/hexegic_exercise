@@ -16,6 +16,7 @@ The rotate module has 1 public function 'rotate_file' and performs either a 'rot
 * I realised that "direction" could probably have been an enum but I was over time and everything worked so I chose not to change it.
 * It does seem slow, I would probably spend some time figuring out how to make it faster if performance on large files was an issue.
     * It could be made multiprocess by chunking the file into blocks but this would add significant complexity.
+    * Looking at the `C` example it might be that processing each byte and writing it immediately is much faster.
 * Improving the 'rotate_files' tests to make them check expected outputs.
 * Error handling could be improved, I'm not very familiar with Rust error handling and for this example I chose to use `panic` as it was a small application.
 

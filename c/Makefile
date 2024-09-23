@@ -3,8 +3,15 @@ all: main
 main: lib_rotate
 	gcc -o rotate main.c -L ./ -I ./ -l _rotate
 
+debug: clean lib_rotate_debug
+	gcc -g -o rotate main.c -L ./ -I ./ -l _rotate 
+
 lib_rotate:
 	gcc -c -o rotate.o rotate.c -I ./
+	ar rcs lib_rotate.a rotate.o
+
+lib_rotate_debug:
+	gcc -g -c -o rotate.o rotate.c -I ./
 	ar rcs lib_rotate.a rotate.o
 
 clean:
