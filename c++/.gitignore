@@ -1,5 +1,6 @@
 lib_rotate.a
 rotate.o
 rotate
+perf*
 
 output/

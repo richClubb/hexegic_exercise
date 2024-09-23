@@ -45,3 +45,23 @@ I tested the times to write 1 meg, 10 meg, 100 meg and 1 gig files:
 * 1 Gig = 103s
 
 This was on a 4th Gen Intel laptop with a SATA SSD, I haven't tested the speeds on more modern CPU or hard drive technology. 'top' is showing the CPU pegged at 100% for the duration of the run so I'm assuming that with a faster CPU this would be significantly faster and this isn't really a I/O bound problem.
+
+### Perf 
+
+Collected using `sudo perf record ./target/debug/rotate left ../test_files/test06_100meg_file output_big` and `perf report`
+
+```
+  21.48%  rotate   rotate                [.] core::slice::raw::from_raw_parts::precondition_check
+  20.28%  rotate   rotate                [.] core::ub_checks::is_aligned_and_not_null
+  15.60%  rotate   rotate                [.] <alloc::vec::Vec<T,A> as core::ops::index::Index<I>>::index
+  15.22%  rotate   rotate                [.] rotate::rotate::rotate_left
+   9.16%  rotate   rotate                [.] alloc::vec::Vec<T,A>::push
+   7.95%  rotate   rotate                [.] <usize as core::slice::index::SliceIndex<[T]>>::index
+   5.78%  rotate   rotate                [.] <core::ops::range::Range<T> as core::iter::range::RangeIteratorImpl>::spec_next
+   1.49%  rotate   rotate                [.] core::iter::range::<impl core::iter::traits::iterator::Iterator for core::ops::range::Range<A>>::next
+   0.61%  rotate   rotate                [.] <usize as core::iter::range::Step>::forward_unchecked
+```
+
+This suggests that as I'm using a `vec` this takes up a significant amount of the processing time and is actually the reason it's taking longer. This makes a lot of sense.
+
+The ability to easily unit test this approach might be not a good enough reason for it to take 3 times longer.

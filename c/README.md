@@ -15,6 +15,53 @@ There are also debug make options for compiling with the ability to debug in gdb
 
 The use of `fseek` to reset the file pointer might be causing a performance degredation, so this might be investigated to speed up the process.
 
+# Debugging
+
+## Vscode Launch and Tasks 
+
+### Launch
+
+```json
+{
+    "name": "C debug",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceRoot}/c/rotate",
+    "args": [
+        "right",
+        "../test_files/test01_single_byte_msb_0",
+        "output/output_right"
+    ],
+    "cwd": "${workspaceFolder}/c",
+    "preLaunchTask": "Make and debug gcc example",
+    "miDebuggerPath": "/usr/bin/gdb",
+    "MIMode": "gdb"
+}
+```
+
+### Tasks
+
+```json
+{
+    "label": "Make and debug gcc example",
+    "command": "make",
+    "options": {
+        "cwd": "${workspaceFolder}/c"
+    },
+    "args": [
+        "debug"
+    ],
+    "dependsOn": [
+        "Delete C Output"
+    ]
+},
+{
+    "label": "Delete C Output",
+    "type": "shell",
+    "command" : "rm -f ${workspaceRoot}/c/output/*",
+}
+```
+
 # Testing
 
 ## Unit tests
@@ -38,3 +85,21 @@ I tested the times to write 1 meg, 10 meg, 100 meg and 1 gig files:
 * 1 Gig = 15.8s
 
 This was on a 4th Gen Intel laptop with a SATA SSD, I haven't tested the speeds on more modern CPU or hard drive technology.
+
+### Perf
+
+Collected using `sudo perf record ./rotate left ../test_files/test06_100meg_file output_big` and `perf report`
+
+```
+  24.25%  rotate   libc.so.6          [.] fputc
+  23.75%  rotate   rotate             [.] rotate_file_left
+  18.92%  rotate   libc.so.6          [.] _IO_getc
+   6.80%  rotate   libc.so.6          [.] _IO_ferror
+   4.87%  rotate   rotate             [.] fputc@plt
+   4.60%  rotate   rotate             [.] fgetc@plt
+   3.46%  rotate   rotate             [.] ferror@plt
+   1.02%  rotate   [kernel.kallsyms]  [k] rep_movs_alternative
+   0.78%  rotate   [kernel.kallsyms]  [k] entry_SYSRETQ_unsafe_stack
+```
+
+Seems very minimal, not sure if there is much to optimise.
