@@ -7,7 +7,7 @@ The solution is split into two main parts; `main.c` which takes the input and ch
 
 These were split to aid in code separation and unit testing as `rotate.c` can be built independently and has no dependencies on `main.c`.
 
-The [Makefile](./Makefile) 
+The [Makefile](./Makefile) defines the build process for the project
 
 ## Known Improvements
 

@@ -14,7 +14,17 @@ int8_t rotate_file_left(char *input_file_path_ptr)
     std::vector<uint8_t> data(input_file.tellg());
     input_file.seekg(0, ios::beg);
 
-    
+    char ch1;
+    char ch2;
+    uint8_t first_byte_msb;
+    if (!input_file.get(ch1)) return -1;
+
+    first_byte_msb = (ch1 & 0x80) >> 7;
+
+    while(input_file.get(ch2))
+    {
+
+    }
 
     return 0;
 }
