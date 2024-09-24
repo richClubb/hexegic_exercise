@@ -127,6 +127,7 @@ void initialise_input_file(uint8_t size, uint8_t *data)
     {
         putc(data[index], input_file);
     }
+    fflush(input_file);
     fclose(input_file);
 }
 
@@ -141,39 +142,22 @@ int8_t check_output_data(uint8_t size, uint8_t *data)
     FILE *output_file = fopen(TMP_OUTPUT_FILE_PATH, "rb");
     uint8_t *output_file_data = malloc(sizeof(uint8_t)*size);
     uint8_t index = 0;
+    uint32_t output_file_size = 0;
+
+    fseek(output_file, 0, SEEK_END);
+    output_file_size = ftell(output_file);
+    fseek(output_file, 0, SEEK_SET);
+
+    if (output_file_size != size) return 1;
 
     for (index = 0; index < size; index++)
     {
         output_file_data[index] = getc(output_file);
     }
 
-    return memcmp(data, output_file_data, size);
     fclose(output_file);
-}
 
-uint8_t test_1_old_style()
-{
-    uint8_t size = 1;
-    uint8_t input_data[] = {0};
-    uint8_t output_data[] = {0};
-    uint8_t index = 0;
-
-    initialise_input_file(size, input_data);
-
-    rotate_file("left", TMP_INPUT_FILE_PATH, TMP_OUTPUT_FILE_PATH);
-
-    if (check_output_data(size, output_data))
-    {
-        printf("test 1 failed\n");
-    }
-    else
-    {
-        printf("test 1 succeeded\n");    
-    }
-
-    cleanup_temp_files();
-
-    return 0;
+    return memcmp(data, output_file_data, size);
 }
 
 int8_t tests()
@@ -204,8 +188,6 @@ int8_t tests()
 int8_t main()
 {
     int8_t rc = 0;
-
-    // test_1();
 
     tests();
 }

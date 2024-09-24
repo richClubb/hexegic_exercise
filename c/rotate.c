@@ -87,6 +87,8 @@ int8_t rotate_file_right(char * input_file_path, char * output_file_path)
 	}
 
 	fclose(input_file);
+	
+	fflush(output_file);
 	fclose(output_file);
 	return ROTATE_FILE_SUCCESS;
 }

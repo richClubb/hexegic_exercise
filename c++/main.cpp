@@ -24,22 +24,23 @@ bool check_rotate_direction(std::string direction)
 	return false;
 }
 
-bool check_input_file_path(char * input_file_path_ptr)
+bool check_input_file_path(std::string input_file_path)
 {
     struct stat sb;
 
     // needs checks for input file permissions
-    if (stat(input_file_path_ptr, &sb) == 0) return true;
+    //if (stat(input_file_path, &sb) == 0) return true;
 
-    return false;
+    //return false;
+	return true;
 }
 
-bool check_output_file_path(char * output_file_path_ptr)
+bool check_output_file_path(std::string output_file_path)
 {
     struct stat sb;
 
     // needs checks for directory and directory permissions
-    if (stat(output_file_path_ptr, &sb) == 0) return false;
+    //if (stat(output_file_path, &sb) == 0) return false;
 
     return true;
 }
@@ -60,13 +61,15 @@ int main(int argc, char ** argv)
 		return ERROR_INVALID_ROTATE_DIR;
 	}
 
-    if (!check_input_file_path(argv[PARAM_POS_INPUT_FILE_PATH]))
+	std::string input_file_path = std::string(argv[PARAM_POS_INPUT_FILE_PATH]);
+    if (!check_input_file_path(input_file_path))
 	{
 		printf("Invalid input path\n");
 		return ERROR_INVALID_INPUT_FILE_PATH;
 	}
 
-	if (!check_output_file_path(argv[PARAM_POS_OUTPUT_FILE_PATH]))
+	std::string output_file_path = std::string(argv[PARAM_POS_INPUT_FILE_PATH]);
+	if (!check_output_file_path(output_file_path))
 	{
 		printf("Invalid output path\n");
 		return ERROR_INVALID_OUTPUT_FILE_PATH;

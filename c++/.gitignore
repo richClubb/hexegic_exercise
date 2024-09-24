@@ -1,6 +1,7 @@
 lib_rotate.a
 rotate.o
 rotate
+rotate_tests
 perf*
 tmp*
 

@@ -21,7 +21,7 @@ class Rotate
         int8_t rotate_right();
 
     public:
-        Rotate (char *, char *);
+        Rotate (std::string, std::string);
         int8_t rotate_file(std::string);
 };
 

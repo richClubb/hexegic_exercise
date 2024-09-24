@@ -4,15 +4,22 @@
 #include <memory>
 #include <cstdlib>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <cstring>
+#include <fstream>
+#include <iostream>
 
 #include "rotate.h"
 
-#define TMP_INPUT_FILE_PATH "tmp_input_file"
-#define TMP_OUTPUT_FILE_PATH "tmp_output_file"
+#define TMP_INPUT_FILE_PATH "./tmp_input_file"
+#define TMP_OUTPUT_FILE_PATH "./tmp_output_file"
 
 #define MAX_NAME_SIZE 255
 #define MAX_INPUT_DATA_SIZE 255
 #define MAX_DESCRIPTION_SIZE 255
+
+using namespace std;
 
 typedef struct test_case
 {
@@ -120,15 +127,16 @@ test_case_t test_cases[NUM_TESTS] =
 
 void initialise_input_file(uint8_t size, uint8_t *data)
 {
-    FILE *input_file;
-    input_file = fopen(TMP_INPUT_FILE_PATH, "wb");
+    ofstream input_file = ofstream(TMP_INPUT_FILE_PATH, ios::out|ios::binary);
 
     uint8_t index;
     for (index = 0; index < size; index++)
     {
-        putc(data[index], input_file);
+        input_file.put(data[index]);
     }
-    fclose(input_file);
+    
+    input_file.flush();
+    input_file.close();
 }
 
 void cleanup_temp_files()
@@ -139,17 +147,25 @@ void cleanup_temp_files()
 
 int8_t check_output_data(uint8_t size, uint8_t *data)
 {
-    FILE *output_file = fopen(TMP_OUTPUT_FILE_PATH, "rb");
-    uint8_t *output_file_data = (uint8_t *)std::malloc(sizeof(uint8_t)*size);
+    ifstream output_file = ifstream(TMP_OUTPUT_FILE_PATH, ios::in|ios::binary|ios::ate);
+    uint8_t *output_file_data = (uint8_t *)malloc(sizeof(uint8_t)*size);
     uint8_t index = 0;
+
+    uint32_t output_file_size = output_file.tellg();
+
+    if (output_file_size != size) return false;
+    output_file.seekg(0, output_file.beg);
 
     for (index = 0; index < size; index++)
     {
-        output_file_data[index] = getc(output_file);
+        char data;
+        output_file.get(data);
+        output_file_data[index] = (uint8_t)data;
     }
 
-    return std::equal(data, data+size, output_file_data);
-    fclose(output_file);
+    output_file.close();
+
+    return equal(data, data+size, output_file_data) == 0 ?  true : false;
 }
 
 int8_t tests()
@@ -177,13 +193,13 @@ int8_t tests()
 
         cleanup_temp_files();
     }
+
+    return 0;
 }
 
 int main()
 {
     int8_t rc = 0;
-
-    // test_1();
 
     tests();
 }

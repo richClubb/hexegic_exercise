@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Rotate::Rotate (char * input_file_path_ptr, char * output_file_path_ptr)
+Rotate::Rotate (string input_file_path_ptr, string output_file_path_ptr)
 {
     this->input_file_path = string(input_file_path_ptr);
     this->output_file_path = string(output_file_path_ptr);
