@@ -14,13 +14,13 @@ Rotate::Rotate (char * input_file_path_ptr, char * output_file_path_ptr)
     this->output_file_path = string(output_file_path_ptr);
 }
 
-int8_t Rotate::rotate_file(char * direction)
+int8_t Rotate::rotate_file(string direction)
 {
-    if (strcmp(direction, "left") == 0)
+    if (direction.compare("left") == 0)
 	{
 		return this->rotate_left();
 	}
-	else if (strcmp(direction, "right") == 0)
+	else if (direction.compare("right") == 0)
 	{
 		return rotate_right();
 	}

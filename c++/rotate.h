@@ -22,7 +22,7 @@ class Rotate
 
     public:
         Rotate (char *, char *);
-        int8_t rotate_file(char *);
+        int8_t rotate_file(std::string);
 };
 
 

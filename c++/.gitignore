@@ -2,5 +2,6 @@ lib_rotate.a
 rotate.o
 rotate
 perf*
+tmp*
 
 output/

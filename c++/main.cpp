@@ -15,11 +15,11 @@
 #define ERROR_INVALID_INPUT_FILE_PATH -3
 #define ERROR_INVALID_OUTPUT_FILE_PATH -4
 
-bool check_rotate_direction(char * direction)
+bool check_rotate_direction(std::string direction)
 {
-	if (strcmp(direction, "left") == 0) return true;
+	if (direction.compare("left") == 0) return true;
 	
-	if (strcmp(direction, "right") == 0) return true;
+	if (direction.compare("right") == 0) return true;
 
 	return false;
 }
@@ -52,7 +52,9 @@ int main(int argc, char ** argv)
 		return ERROR_INVALID_NUM_ARGS; 
 	}
 
-    if (!check_rotate_direction(argv[PARAM_POS_DIRECTION]))
+	std::string direction = std::string(argv[PARAM_POS_DIRECTION]);
+
+    if (!check_rotate_direction(direction))
 	{
 		printf("Invalid rotation direction\n");
 		return ERROR_INVALID_ROTATE_DIR;
@@ -72,5 +74,5 @@ int main(int argc, char ** argv)
 
 	Rotate rot = Rotate(argv[PARAM_POS_INPUT_FILE_PATH], argv[PARAM_POS_OUTPUT_FILE_PATH]);
 
-	return rot.rotate_file(argv[PARAM_POS_DIRECTION]);
+	return rot.rotate_file(direction);
 }
