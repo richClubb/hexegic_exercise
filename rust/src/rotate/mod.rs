@@ -253,7 +253,7 @@ mod rotate_file_tests
         output_file_path.push_str("test01_output"); 
         let output_path = PathBuf::from(output_file_path);
 
-        rotate_file("left".to_string(), input_path, output_path);
+        _ = rotate_file("left".to_string(), input_path, output_path);
 
         // would have liked to get it working to check the output but stopping as I've spent over 2 hours on the assignment.
     }
