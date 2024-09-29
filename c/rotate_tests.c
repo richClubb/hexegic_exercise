@@ -120,9 +120,10 @@ test_case_t test_cases[NUM_TESTS] =
 void initialise_input_file(uint8_t size, uint8_t *data)
 {
     FILE *input_file;
-    input_file = fopen(TMP_INPUT_FILE_PATH, "wb");
-
     uint8_t index;
+    
+    input_file = fopen(TMP_INPUT_FILE_PATH, "wb");
+    
     for (index = 0; index < size; index++)
     {
         putc(data[index], input_file);

@@ -16,41 +16,61 @@ struct Cli {
     output_path: PathBuf,
 }
 
-fn check_direction(direction: &String){
+fn check_direction(direction: &String) -> Result<(), &'static str>{
 
     if (direction != "left") && (direction != "right"){
-        panic!("Direction is not 'left' or 'right'. Can not rotate file.")
+        return Err("Invalid direction")
     }
+    return Ok(())
 }
 
-fn check_input_file_path(input_file: &PathBuf){
+fn check_input_file_path(input_file: &PathBuf) -> Result<(), &'static str>{
     if Path::new(input_file).exists() == false {
-        panic!("Input file does not exist")
+        return Err("Invalid input file path")
     }
+    return Ok(())
 }
 
-fn check_output_file_path(output_file: &PathBuf){
+fn check_output_file_path(output_file: &PathBuf) -> Result<(), &'static str>{
 
     let output_path = Path::new(output_file);
 
     let parent_path = output_path.parent();
 
     if parent_path != Some(Path::new("")) && parent_path.unwrap().exists() == false {
-        panic!("Output path is invalid")
+        return Err("Output path is invalid");
     }
 
     if Path::new(output_file).exists() == true {
-        panic!("Output file exists")
+        return Err("Output file exists")
     }
+
+    return Ok(())
 }
 
-fn main() {
+fn main() -> Result<(), &'static str> {
     let args = Cli::parse();
 
     // passing these as references as they do not need ownership inside the function
-    check_direction(&args.direction);
-    check_input_file_path(&args.input_path);
-    check_output_file_path(&args.output_path);
+    match check_direction(&args.direction) {
+        Ok(()) => (),
+        Err(error) => return Err(error)
+    }
 
-    rotate_file(args.direction, args.input_path, args.output_path)
+    match check_input_file_path(&args.input_path){
+        Ok(()) => (),
+        Err(error) => return Err(error)
+    }
+
+    match check_output_file_path(&args.output_path){
+        Ok(()) => (),
+        Err(error) => return Err(error)
+    }
+
+    match rotate_file(args.direction, args.input_path, args.output_path){
+        Ok(()) => (),
+        Err(error) => return Err(error)
+    }
+
+    return Ok(())
 }

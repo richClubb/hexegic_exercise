@@ -49,26 +49,35 @@ fn rotate_right(input_data: Vec<u8>) -> Vec<u8> {
     result
 }
 
-pub fn rotate_file(direction: String, input_file_path: PathBuf, output_file_path: PathBuf){
+pub fn rotate_file(direction: String, input_file_path: PathBuf, output_file_path: PathBuf) -> Result<(), &'static str>{
     // this function assumes that:
     // * direction is correct
     // * 
 
-    let contents = fs::read(input_file_path);
+    let input_file_result = fs::read(input_file_path);
+    let contents = match input_file_result {
+        Ok(result) => result,
+        Err(_) => return Err("Can't open input file")
+    };
     
     // chose to panic here as it's not valid if the file is empty.
-    if contents.as_ref().unwrap().len() == 0{
-        panic!("File is empty, aborting");
+    if contents.len() == 0{
+        return Err("Nothing in file")
     }
 
     // leaving the result unchecked as I've gone over the 2 hours for the assignment
     if direction == "left"{
-        let rotated_input = rotate_left(contents.unwrap());
+        let rotated_input = rotate_left(contents);
         let _result = fs::write(output_file_path, rotated_input);
+        Ok(())
     }
     else if direction == "right"{
-        let rotated_input = rotate_right(contents.unwrap());
+        let rotated_input = rotate_right(contents);
         let _result = fs::write(output_file_path, rotated_input);
+        Ok(())
+    }
+    else {
+        return Err("Invalid direction")
     }
 }
 
