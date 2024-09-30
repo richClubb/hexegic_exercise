@@ -15,10 +15,48 @@ The rotate module has 1 public function 'rotate_file' and performs either a 'rot
 
 * I realised that "direction" could probably have been an enum but I was over time and everything worked so I chose not to change it.
 * It does seem slow, I would probably spend some time figuring out how to make it faster if performance on large files was an issue.
-    * It could be made multiprocess by chunking the file into blocks but this would add significant complexity.
-    * Looking at the `C` example it might be that processing each byte and writing it immediately is much faster.
+  * ~~It could be made multiprocess by chunking the file into blocks but this would add significant complexity.~~
+  * Looking at the `C` example it might be that processing each byte and writing it immediately is much faster.
 * Improving the 'rotate_files' tests to make them check expected outputs.
-* Error handling could be improved, I'm not very familiar with Rust error handling and for this example I chose to use `panic` as it was a small application.
+  * Did this in C so it might be easy enough to do
+* ~~Error handling could be improved, I'm not very familiar with Rust error handling and for this example I chose to use `panic` as it was a small application.~~ - Addressed this and think it's a bit more idiomatic to rust
+
+# Debugging
+
+The following can be used to debug the code in vscode using the interactive debugger
+
+## Launch.json
+
+```json
+{
+    "name": "Rust debug",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceRoot}/rust/target/debug/rotate",
+    "args": [
+        "left",
+        "${workspaceFolder}/test_files/test01_single_byte_msb_0",
+        "output"
+    ],
+    "cwd": "${workspaceFolder}/rust",
+    "preLaunchTask": "Rust cargo build"
+}
+```
+
+## Tasks.json
+
+```json
+{
+    "label": "Rust cargo build",
+    "command": "cargo",
+    "options": {
+        "cwd": "${workspaceFolder}/rust"
+    },
+    "args": [
+        "build"
+    ]
+}
+```
 
 # Testing
 
