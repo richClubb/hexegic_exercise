@@ -1,12 +1,12 @@
 package main
 
 import (
-  "fmt"
-  "io/ioutil"
+	"fmt"
+
+	"hexegic_example/cmd"
 )
 
-import "github.com/spf13/cobra"
-
 func main() {
-  
+	fmt.Println("Hello, World!")
+	cmd.Execute()
 }
